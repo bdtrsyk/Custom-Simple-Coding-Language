@@ -1,0 +1,22 @@
+# Gradebook: collect scores and calculate an average
+let scores = []
+ask int count "How many scores?"
+
+repeat i in 1..count
+  ask number score "Score {i}:"
+  set scores = list.push(scores, score)
+end
+
+average = list.sum(scores) / len(scores)
+print "Scores:", scores
+print "Average:", math.round(average * 10) / 10
+
+if average >= 90
+  print "Grade: A"
+else if average >= 80
+  print "Grade: B"
+else if average >= 70
+  print "Grade: C"
+else
+  print "Grade: Keep practicing"
+end

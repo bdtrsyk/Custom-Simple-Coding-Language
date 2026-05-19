@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Coding Language IDE</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div>
+        <h1>My Coding Language</h1>
+        <p>Made by sabit wadee khan</p>
+      </div>
+      <div class="top-actions">
+        <button id="formatBtn">Format</button>
+        <button id="runBtn" class="primary">Run Program</button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="sidebar panel">
+        <section class="sidebar-section">
+          <div class="panel-title-row">
+            <h2>Files</h2>
+            <button id="refreshFilesBtn">Refresh</button>
+          </div>
+          <p class="hint">Files currently open inside the IDE.</p>
+          <div id="fileList" class="file-list"></div>
+          <div class="button-grid">
+            <button id="newFileBtn">New</button>
+            <button id="renameFileBtn">Rename</button>
+            <button id="deleteFileBtn">Delete</button>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <section class="sidebar-section">
+          <div class="panel-title-row">
+            <h2>CodesEstablished Folder</h2>
+            <button id="connectCodesFolderBtn">Connect</button>
+          </div>
+          <p class="hint">Connect the real folder on your Desktop, then load or save .mcl files.</p>
+          <button id="loadFromDiskBtn">Load From Folder</button>
+          <button id="saveToDiskBtn">Save Current File</button>
+          <button id="saveAllToDiskBtn">Save All Files</button>
+        </section>
+
+        <div class="divider"></div>
+
+        <section class="sidebar-section">
+          <div class="panel-title-row">
+            <h2>Starter Projects</h2>
+            <button id="loadExampleBtn">Add</button>
+          </div>
+          <p class="hint">Add a ready project to your Files list.</p>
+          <select id="exampleSelect" class="example-select"></select>
+        </section>
+      </aside>
+
+      <section class="editor-area panel">
+        <div id="tabs" class="tabs"></div>
+        <div class="editor-shell">
+          <pre id="highlightLayer" aria-hidden="true"></pre>
+          <textarea id="editor" spellcheck="false"></textarea>
+        </div>
+      </section>
+
+      <aside class="right panel">
+        <div class="panel-title-row">
+          <h2>Console</h2>
+          <button id="clearConsoleBtn">Clear</button>
+        </div>
+        <div class="size-hint">Tip: drag the bottom-right corner to resize console.</div>
+        <div id="console" class="console"></div>
+
+        <div class="divider"></div>
+
+        <details class="help-panel" open>
+          <summary>MYCODINGLANGUAGE Guide</summary>
+          <div class="size-hint">Reference guide for writing real .mcl programs.</div>
+
+          <div class="guide">
+            <section class="guide-section guide-intro">
+              <h3>First Idea: Code Is A List Of Instructions</h3>
+              <p>Write one instruction on each line. Press <strong>Run Program</strong>. The computer reads from top to bottom.</p>
+              <pre><code>print "Hi"
+print "I am learning code"
+print "This runs third"</code></pre>
+              <p>If you are stuck, start with <code>print</code>. It is the easiest command.</p>
+            </section>
+
+            <section class="guide-section">
+              <h3>The 5 Main Words</h3>
+              <p>You can build many programs with only these words.</p>
+              <table class="guide-table">
+                <tr><th>Word</th><th>Kid meaning</th><th>Example</th></tr>
+                <tr><td><code>print</code></td><td>Say something</td><td><code>print "Hello"</code></td></tr>
+                <tr><td><code>ask</code></td><td>Ask the user a question</td><td><code>ask name "Name:"</code></td></tr>
+                <tr><td><code>let</code></td><td>Remember something</td><td><code>let score = 0</code></td></tr>
+                <tr><td><code>if</code></td><td>Choose what happens</td><td><code>if score &gt; 5</code></td></tr>
+                <tr><td><code>repeat</code></td><td>Do it again</td><td><code>repeat 3</code></td></tr>
+              </table>
+            </section>
+
+            <section class="guide-section">
+              <h3>Rule 1: Text Gets Quotes</h3>
+              <p>Words and symbols like <code>+</code> need quotes. Numbers do not.</p>
+              <table class="guide-table compact">
+                <tr><th>Thing</th><th>Write it like this</th></tr>
+                <tr><td>Words</td><td><code>"hello"</code></td></tr>
+                <tr><td>Math symbols as choices</td><td><code>"+"</code> <code>"-"</code> <code>"*"</code> <code>"/"</code></td></tr>
+                <tr><td>Numbers</td><td><code>10</code> <code>3.5</code></td></tr>
+              </table>
+              <pre><code>print "hello"
+print 10 + 5
+print "10 + 5"</code></pre>
+              <p>The first math line prints <code>15</code>. The second one prints the words <code>10 + 5</code>.</p>
+            </section>
+
+            <section class="guide-section">
+              <h3>Say Something</h3>
+              <p><code>print</code> shows words or answers in the console.</p>
+              <pre><code>print "Welcome"
+print "My score is", 100
+print "2 + 3 =", 2 + 3</code></pre>
+              <p>Commas add spaces between things.</p>
+            </section>
+
+            <section class="guide-section">
+              <h3>Remember Something</h3>
+              <p>A variable is a box with a name. Put something in the box, then use it later.</p>
+              <pre><code>let name = "Sabit"
+let score = 10
+
+print name
+print score</code></pre>
+              <p>Change a box with <code>set</code>.</p>
+              <pre><code>let score = 10
+set score = score + 5
+set score += 1
+print score</code></pre>
+            </section>
+
+            <section class="guide-section">
+              <h3>Put A Variable Inside Text</h3>
+              <p>Use curly braces inside quotes.</p>
+              <pre><code>let name = "Sabit"
+let coins = 25
+
+print "Hello, {name}!"
+print "You have {coins} coins."</code></pre>
+            </section>
+
+            <section class="guide-section">
+              <h3>Ask The User</h3>
+              <p><code>ask</code> makes a question appear in the console. The answer is saved in a variable.</p>
+              <pre><code>ask name "What is your name?"
+print "Hello, {name}!"</code></pre>
+              <p><code>ask</code> is universal. It tries to guess the answer type.</p>
+              <table class="guide-table compact">
+                <tr><th>User types</th><th>Program sees</th></tr>
+                <tr><td><code>12</code></td><td>a number</td></tr>
+                <tr><td><code>yes</code></td><td>true</td></tr>
+                <tr><td><code>hello</code></td><td>text</td></tr>
+              </table>
+            </section>
+
+            <section class="guide-section">
+              <h3>Ask Safely</h3>
+              <p>Use a stronger ask when you know what kind of answer you want.</p>
+              <table class="guide-table">
+                <tr><th>You want</th><th>Use this</th></tr>
+                <tr><td>Any answer</td><td><code>ask answer "Type anything:"</code></td></tr>
+                <tr><td>Words</td><td><code>ask text name "Name:"</code></td></tr>
+                <tr><td>Number</td><td><code>ask number age "Age:"</code></td></tr>
+                <tr><td>Whole number</td><td><code>ask int lives "Lives:"</code></td></tr>
+                <tr><td>Yes or no</td><td><code>ask yesno play "Play again?"</code></td></tr>
+                <tr><td>Pick from a list</td><td><code>ask choice op ["+", "-", "*", "/"] "Operation:"</code></td></tr>
+              </table>
+            </section>
+
+            <section class="guide-section">
+              <h3>Choose What Happens</h3>
+              <p><code>if</code> means “only do this if the answer is yes.”</p>
+              <pre><code>ask number age "How old are you?"
+
+if age &gt;= 13
+  print "Teen or older"
+else
+  print "Kid"
+end</code></pre>
+              <p>Important: every <code>if</code> needs an <code>end</code>.</p>
+            </section>
+
+            <section class="guide-section">
+              <h3>More Than Two Choices</h3>
+              <p>Use <code>else if</code> for another choice.</p>
+              <pre><code>ask choice color ["red", "blue", "green"] "Pick a color:"
+
+if color == "red"
+  print "Warm color"
+else if color == "blue"
+  print "Cool color"
+else
+  print "Nice color"
+end</code></pre>
+              <p>Use <code>==</code> when you ask “is it the same?”</p>
+            </section>
+
+            <section class="guide-section">
+              <h3>Repeat Things</h3>
+              <p><code>repeat</code> means “do this again.”</p>
+              <pre><code>repeat 3
+  print "Hello"
+end</code></pre>
+              <p>The special variable <code>loop</code> tells you which repeat you are on.</p>
+              <pre><code>repeat 3
+  print "Round", loop
+end</code></pre>
+            </section>
+
+            <section class="guide-section">
+              <h3>Count From One Number To Another</h3>
+              <p><code>1..5</code> means 1, 2, 3, 4, 5.</p>
+              <pre><code>repeat number in 1..5
+  print number
+end</code></pre>
+            </section>
+
+            <section class="guide-section">
+              <h3>Calculator: Easiest Version</h3>
+              <p>This calculator asks for two numbers and prints all answers.</p>
+              <pre><code>print "Welcome to the calculator"
+
+ask number first "First number:"
+ask number second "Second number:"
+
+print "Add:", first + second
+print "Subtract:", first - second
+print "Multiply:", first * second
+print "Divide:", first / second</code></pre>
+            </section>
+
+            <section class="guide-section">
+              <h3>Calculator: Pick + - * Or /</h3>
+              <p>Symbols are text choices, so they need quotes.</p>
+              <pre><code>print "Welcome to the calculator"
+
+ask number first "First number:"
+ask choice op ["+", "-", "*", "/"] "Choose +, -, * or /:"
+ask number second "Second number:"
+
+if op == "+"
+  print first + second
+else if op == "-"
+  print first - second
+else if op == "*"
+  print first * second
+else
+  print first / second
+end</code></pre>
+            </section>
+
+            <section class="guide-section">
+              <h3>Lists: A Box With Many Things</h3>
+              <p>A list holds many values.</p>
+              <pre><code>let colors = ["red", "blue", "green"]
+
+print colors
+print colors[0]
+print list.first(colors)
+print list.last(colors)</code></pre>
+              <p>Loop through a list like this:</p>
+              <pre><code>for color in colors
+  print color
+end</code></pre>
+            </section>
+
+            <section class="guide-section">
+              <h3>Functions: Make Your Own Command</h3>
+              <p>A function is a command you create.</p>
+              <pre><code>func double(number)
+  return number * 2
+end
+
+print double(5)</code></pre>
+              <p>This prints <code>10</code>.</p>
+            </section>
+
+            <section class="guide-section">
+              <h3>Words You Will See</h3>
+              <table class="guide-table compact">
+                <tr><th>Code</th><th>Means</th></tr>
+                <tr><td><code>+</code></td><td>add</td></tr>
+                <tr><td><code>-</code></td><td>subtract</td></tr>
+                <tr><td><code>*</code></td><td>multiply</td></tr>
+                <tr><td><code>/</code></td><td>divide</td></tr>
+                <tr><td><code>==</code></td><td>same as</td></tr>
+                <tr><td><code>!=</code></td><td>not same as</td></tr>
+                <tr><td><code>&gt;</code></td><td>bigger than</td></tr>
+                <tr><td><code>&lt;</code></td><td>smaller than</td></tr>
+                <tr><td><code>and</code></td><td>both things must be true</td></tr>
+                <tr><td><code>or</code></td><td>one thing must be true</td></tr>
+                <tr><td><code>not</code></td><td>the opposite</td></tr>
+              </table>
+            </section>
+
+            <section class="guide-section">
+              <h3>Handy Helper Commands</h3>
+              <table class="guide-table">
+                <tr><th>Helper</th><th>What it does</th></tr>
+                <tr><td><code>len("cat")</code></td><td>counts length, gives 3</td></tr>
+                <tr><td><code>math.round(3.6)</code></td><td>rounds a number</td></tr>
+                <tr><td><code>random.randint(1, 10)</code></td><td>random number from 1 to 10</td></tr>
+                <tr><td><code>text.upper("hi")</code></td><td>turns text into HI</td></tr>
+                <tr><td><code>list.sort([3, 1, 2])</code></td><td>sorts a list</td></tr>
+                <tr><td><code>time.clock()</code></td><td>current time</td></tr>
+                <tr><td><code>wait 500</code></td><td>waits half a second</td></tr>
+              </table>
+            </section>
+
+            <section class="guide-section">
+              <h3>Very Common Mistakes</h3>
+              <table class="guide-table">
+                <tr><th>Wrong</th><th>Right</th></tr>
+                <tr><td><code>if op == +</code></td><td><code>if op == "+"</code></td></tr>
+                <tr><td><code>else op == "-"</code></td><td><code>else if op == "-"</code></td></tr>
+                <tr><td><code>ask age "Age:"</code> for math</td><td><code>ask number age "Age:"</code></td></tr>
+                <tr><td>Forgetting <code>end</code></td><td>Add <code>end</code> after blocks</td></tr>
+                <tr><td><code>add1 - add2</code> in the subtract section</td><td>Use the right names, like <code>sub1 - sub2</code></td></tr>
+              </table>
+            </section>
+
+            <section class="guide-section">
+              <h3>Best Way To Learn</h3>
+              <p>Do this in order:</p>
+              <table class="guide-table compact">
+                <tr><th>Step</th><th>Try</th></tr>
+                <tr><td>1</td><td>Load <strong>Hello</strong></td></tr>
+                <tr><td>2</td><td>Load <strong>Calculator Simple</strong></td></tr>
+                <tr><td>3</td><td>Load <strong>Calculator Menu</strong></td></tr>
+                <tr><td>4</td><td>Load <strong>Guessing Game</strong></td></tr>
+                <tr><td>5</td><td>Load <strong>All Features Tour</strong></td></tr>
+              </table>
+              <p>Change one line, run it, then change another line. Small changes are how coding starts to feel easy.</p>
+            </section>
+          </div>
+        </details>
+      </aside>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
